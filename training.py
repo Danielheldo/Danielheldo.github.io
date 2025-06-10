@@ -41,7 +41,18 @@ create_table_if_not_exists()
 
 lemmatizer = WordNetLemmatizer()
 
+
+#custom_lemmatizer = {
+#    'Tung Tung Sahurs': 'Tung Tung Sahur',
+#    'Bombardino Crocodilos': 'Bombardino Crocodilo'
+#}
+
+#def lemmatize_custom(word):
+#    return custom_lemmatizer.get(word, lemmatizer.lemmatize(word))
+
+
 intents = json.loads(open('intents.json').read())  #unser Wörterbuch
+
 
 words = []
 classes = []
@@ -138,7 +149,7 @@ model.add(tf.keras.layers.Embedding(len(words), 128, input_length=len(trainX[0])
 model.add(tf.keras.layers.SimpleRNN(128))
 model.add(tf.keras.layers.Dense(len(trainY[0]), activation='softmax'))
 
-optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.fit(trainX, trainY, epochs=100, batch_size=12, verbose=1)
